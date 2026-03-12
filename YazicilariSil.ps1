@@ -1,5 +1,45 @@
 #Requires -RunAsAdministrator
 
+<#
+.SYNOPSIS
+    Bilgisayardaki tum yazicilari silen PowerShell scripti.
+
+.DESCRIPTION
+    - Korunan yazicilar (Microsoft Print to PDF, XPS Document Writer, OneNote, Fax) silinmez
+    - -Onayla parametresi olmadan sadece listeleme yapar, hicbir sey silmez
+    - Silme oncesi yazdirma kuyrugunu temizler, Spooler servisini durdurur/baslatir
+    - -PortlariSil ile kullanilmayan yazici portlarini da kaldirir
+    - -SuruculeriSil ile kullanilmayan yazici suruculerini de kaldirir
+    - YaziciYonetim.ps1 ile tutarli Write-Log loglama yapisi kullanir
+    - Hata durumunda Spooler servisi otomatik yeniden baslatilir
+    - Yonetici hakki ile calistirilmasi zorunludur
+
+.PARAMETER Onayla
+    Bu parametre verilmeden script sadece silinecek yazicilari listeler, silme islemi yapmaz.
+
+.PARAMETER PortlariSil
+    Yazicilar silindikten sonra baska yazici tarafindan kullanilmayan portlari da siler.
+
+.PARAMETER SuruculeriSil
+    Yazicilar silindikten sonra baska yazici tarafindan kullanilmayan suruculeri de siler.
+
+.EXAMPLE
+    .\YazicilariSil.ps1
+    Sadece silinecek yazicilari listeler, silme yapmaz.
+
+.EXAMPLE
+    .\YazicilariSil.ps1 -Onayla
+    Tum yazicilari siler (korunanlar haric).
+
+.EXAMPLE
+    .\YazicilariSil.ps1 -Onayla -PortlariSil
+    Yazicilari ve kullanilmayan portlari siler.
+
+.EXAMPLE
+    .\YazicilariSil.ps1 -Onayla -PortlariSil -SuruculeriSil
+    Yazicilari, portlari ve suruculeri tamamen temizler.
+#>
+
 param(
     [switch]$Onayla,
     [switch]$PortlariSil,
